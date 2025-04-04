@@ -1,0 +1,817 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockmail</title>
+    <link rel="shortcut icon" href="images/BM.png" type="image/png">
+    <link rel="stylesheet" href="css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Comic Neue', cursive;
+        background: linear-gradient(135deg, #ffcce6, #b3e6ff);
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .container {
+        max-width: 1100px;
+        width: 90%;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 
+          0 10px 20px rgba(0, 0, 0, 0.1),
+          0 0 0 5px #ff9966,
+          0 0 0 10px #ffcc00;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        border: 3px dashed #ff6699;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+        border: 3px solid #66ccff;
+        border-radius: 35px;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      button {
+        flex: 1;
+        background: #ff9966;
+        border: none;
+        color: white;
+        padding: 12px;
+        cursor: pointer;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-bottom: 4px solid #ff7733;
+        text-transform: uppercase;
+      }
+
+      .premium {
+        background: linear-gradient(135deg, #ffcc00, #ff7700);
+        color: #8a2be2;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 14px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+        transition: all 0.3s ease;
+        border-bottom: 4px solid #cc6600;
+      }
+
+      .premium:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(255, 165, 0, 0.6);
+      }
+
+      .email-box {
+        background: white;
+        padding: 15px 20px;
+        border-radius: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 3px solid #66ccff;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .email-box:hover {
+        box-shadow: 0 6px 15px rgba(102, 204, 255, 0.5);
+        transform: translateY(-3px);
+      }
+
+      .email-box input {
+        border: none;
+        background: none;
+        color: #333;
+        width: 85%;
+        font-size: 18px;
+        outline: none;
+        font-family: 'Comic Neue', cursive;
+        font-weight: bold;
+      }
+
+      .email-box button {
+        background: #66ccff;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border-bottom: 4px solid #3399ff;
+      }
+
+      .email-box button:hover {
+        background: #3399ff;
+        transform: scale(1.1) rotate(10deg);
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .buttons button {
+        flex: 1;
+        background: #66ccff;
+        border: none;
+        color: white;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 50px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        border-bottom: 4px solid #3399ff;
+      }
+
+      .buttons button:hover {
+        background: #3399ff;
+        transform: translateY(-5px) scale(1.05);
+      }
+
+      button:hover {
+        background: #ff7733;
+        transform: translateY(-5px);
+      }
+
+      .email-list {
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        border: 3px solid #ff9966;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .email-list p {
+        display: flex;
+        color: #333;
+        border: 2px dashed #66ccff;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 16px;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .email-list p:hover {
+        background: rgba(102, 204, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .email-list button {
+        width: 100px;
+        max-width: 100px;
+        background: #ff6699;
+        border-bottom: 4px solid #cc3366;
+      }
+
+      .email-list button:hover {
+        background: #cc3366;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 500px;
+        width: 90%;
+        text-align: left;
+        box-shadow: 
+          0 10px 20px rgba(0, 0, 0, 0.2),
+          0 0 0 5px #ff9966,
+          0 0 0 10px #66ccff;
+        border: 3px dashed #ff6699;
+        position: relative;
+      }
+
+      .modal-content h2 {
+        margin-top: 0;
+        color: #ff6699;
+        font-size: 24px;
+        text-align: center;
+        border-bottom: 2px dotted #66ccff;
+        padding-bottom: 10px;
+      }
+
+      .modal-content button {
+        background: #ff9966;
+        border: none;
+        color: white;
+        padding: 12px 25px;
+        cursor: pointer;
+        border-radius: 50px;
+        margin-top: 15px;
+        font-weight: bold;
+        border-bottom: 4px solid #ff7733;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .modal-content button:hover {
+        background: #ff7733;
+      }
+
+      .social-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-buttons a {
+        color: white;
+        font-size: 28px;
+        transition: all 0.3s ease;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #66ccff;
+        border-bottom: 4px solid #3399ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .social-buttons a:hover {
+        color: white;
+        background: #3399ff;
+        transform: rotate(15deg) scale(1.1);
+      }
+
+      .popup {
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 25px;
+        background: white;
+        width: 90%;
+        text-align: center;
+        color: #333;
+        border: 3px solid #ff9966;
+        z-index: 1001;
+        box-shadow: 
+          0 10px 20px rgba(0, 0, 0, 0.2),
+          0 0 0 5px #66ccff,
+          0 0 0 10px #ffcc00;
+      }
+
+      .popup h2 {
+        margin-bottom: 25px;
+        font-size: 28px;
+        color: #ff6699;
+        text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .popup input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 3px solid #66ccff;
+        border-radius: 50px;
+        background: white;
+        color: #333;
+        font-size: 16px;
+        outline: none;
+        font-family: 'Comic Neue', cursive;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .popup input::placeholder {
+        color: #aaa;
+      }
+
+      .popup input:focus {
+        border-color: #ff6699;
+        box-shadow: 0 6px 12px rgba(255, 102, 153, 0.3);
+      }
+
+      .popup button {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #66ccff, #9966ff);
+        border: none;
+        border-radius: 50px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-bottom: 4px solid #6633cc;
+        box-shadow: 0 6px 12px rgba(102, 51, 204, 0.3);
+      }
+
+      .popup button:hover {
+        background: linear-gradient(135deg, #9966ff, #66ccff);
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      .popup button:active {
+        transform: translateY(0);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .msg {
+        position: absolute;
+        z-index: 999;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        padding: 30px;
+        background: white;
+        border: 3px solid #ff9966;
+        display: none;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 
+          0 10px 20px rgba(0, 0, 0, 0.3),
+          0 0 0 5px #66ccff;
+        font-weight: bold;
+        font-size: 18px;
+        color: #ff6699;
+        text-align: center;
+      }
+
+      #send {
+        position: relative;
+        background: #ff9966;
+      }
+
+      #git {
+        position: relative;
+      }
+
+      #git::before {
+        content: "soon";
+        position: absolute;
+        top: -12px;
+        right: -25px;
+        font-size: 14px;
+        color: #ff6699;
+        background: white;
+        padding: 2px 5px;
+        border-radius: 10px;
+        border: 2px solid #ff9966;
+        font-weight: bold;
+      }
+
+      #send::before {
+        content: "soon";
+        position: absolute;
+        top: -12px;
+        right: 10px;
+        font-size: 14px;
+        color: #ff6699;
+        background: white;
+        padding: 2px 5px;
+        border-radius: 10px;
+        border: 2px solid #ff9966;
+        font-weight: bold;
+      }
+
+      h1 {
+        margin-right: 80px;
+        background: linear-gradient(135deg, #ff6699, #9966ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 42px;
+        font-weight: bold;
+        text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+      }
+
+      /* Добавим мультяшные облачка */
+      .cloud {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        z-index: -1;
+      }
+
+      .cloud-1 {
+        width: 150px;
+        height: 60px;
+        top: 10%;
+        left: 5%;
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .cloud-2 {
+        width: 200px;
+        height: 80px;
+        bottom: 15%;
+        right: 5%;
+        animation: float 10s ease-in-out infinite 2s;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0) translateX(0);
+        }
+        50% {
+          transform: translateY(-20px) translateX(10px);
+        }
+      }
+
+      /* Добавим мультяшные звездочки */
+      .star {
+        position: absolute;
+        color: #ffcc00;
+        font-size: 20px;
+        animation: twinkle 2s infinite alternate;
+        z-index: -1;
+      }
+
+      @keyframes twinkle {
+        0% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      /* Стиль для ошибки Twitter */
+      #twitterError {
+        color: #ff3333;
+        display: none;
+        font-weight: bold;
+        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+      }
+    a {
+        text-decoration: none;
+    }
+    </style>
+  </head>
+  <body>
+    <!-- Мультяшные элементы фона -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="star" style="top: 15%; left: 20%;">★</div>
+    <div class="star" style="top: 80%; left: 80%;">★</div>
+    <div class="star" style="top: 30%; left: 70%;">★</div>
+    <div class="star" style="top: 70%; left: 30%;">★</div>
+
+    <div class="msg" id="msg">
+        Congratulations! Your Blockmail is @blockmail.fun
+    </div>
+    <div class="container" id="mainContent">
+      <div class="popup" id="pop">
+        <h2>Create blockmail</h2>
+        <div id="step1">
+          <input type="text" id="nickname" placeholder="Enter Nickname">
+          <button onclick="nextStep(2)">Next</button>
+        </div>
+        <div id="step2" class="hidden">
+          <input type="email" id="email" placeholder="Enter Email nickname">
+          <button onclick="nextStep(3)">Next</button>
+        </div>
+        <div id="step3" class="hidden">
+            <input type="text" id="twitter" placeholder="Enter Twitter link (e.g., https://x.com/username)">
+            <button onclick="validateAndNext()">Next</button>
+            <p id="twitterError" style="color: #ff3333; display: none;">Please enter a valid X link.</p>
+        </div>
+        <div id="step4" class="hidden">
+            <input type="text" id="solWallet" placeholder="Enter SOL wallet for rewards (minimum 25 characters)">
+            <button onclick="validateAndSave()">Register</button>
+        </div>
+      </div>
+      <p style="display: none;">Your Email: <span id="displayEmail"></span></p>
+      <p style="display: none;">Your Twitter: <span id="displayTwitter"></span></p>
+      <div class="header">
+        <div>
+          <button onclick="openModal('termsModal')">Terms of Use</button>
+          <button onclick="openModal('faqModal')">F.A.Q.</button>
+        </div>
+        <h1>BLOCKMAIL</h1>
+        <div class="social-buttons">
+            <a href="https://x.com/blockmailfun" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/blockmailfun" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a id="git" href="" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <p style="font-size: 20px; font-weight: bold; color: #9966ff;">Your Temporary Email</p>
+      <div class="email-box">
+        <input type="text" id="emaill" readonly="">
+        <button onclick="copyEmail()"><i class="fa fa-copy"></i></button>
+      </div>
+      <p style="font-size: 16px; color: #9966ff; font-weight: bold;">
+        Send and receive mails and be rewarded for your daily activity.
+      </p>
+      <div class="buttons">
+        <button id="send" onclick="copyEmail()">Send Mail</button>
+        <button onclick="refreshEmail()">Refresh</button>
+        <button onclick="changeEmail()">Copy</button>
+        <button onclick="deleteEmail()">Delete</button>
+      </div>
+      <div class="email-list">
+        
+        <p style="text-align: center; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6699; font-size: 18px;">Blockmail is not created</p>
+      </div>
+      
+    </div>
+
+    <!-- Terms of Use Modal -->
+    <div id="termsModal" class="modal">
+      <div class="modal-content">
+        <h2>Terms of Use</h2>
+        <p>
+          By using this service, you agree to the following terms:
+          </p><ul style="color: #666;">
+            <li>You must not use this service for illegal activities.</li>
+            <li>You are responsible for the content of your emails.</li>
+            <li>We reserve the right to terminate your access at any time.</li>
+          </ul>
+        <p></p>
+        <button onclick="closeModal('termsModal')">Close</button>
+      </div>
+    </div>
+
+    <!-- F.A.Q. Modal -->
+    <div id="faqModal" class="modal">
+      <div class="modal-content">
+        <h2>Frequently Asked Questions</h2>
+        <p style="color: #666;">
+          <strong style="color: #ff6699;">Q: How do I create a temporary email?</strong><br>
+          A: Simply click the "Refresh" button to generate a new email address.<br><br>
+          <strong style="color: #ff6699;">Q: Can I use this email for registration?</strong><br>
+          A: Yes, you can use it for any service that requires email verification.<br><br>
+          <strong style="color: #ff6699;">Q: How long does the email last?</strong><br>
+          A: The email will remain active for 24 hours.
+        </p>
+        <button onclick="closeModal('faqModal')">Close</button>
+      </div>
+    </div>
+
+    <script>
+      function validateAndSave() {
+        const solWalletInput = document.getElementById("solWallet");
+        const walletAddress = solWalletInput.value.trim();
+
+        // Проверяем, что длина адреса не менее 25 символов
+        if (walletAddress.length >= 25) {
+          saveData(); // Сохраняем данные
+        } else {
+          return
+        }
+      }
+      
+      function isValidTwitterLink(link) {
+        // Регулярное выражение для проверки ссылки на Twitter
+        const twitterRegex = /^https?:\/\/(www\.)?x\.com\/[a-zA-Z0-9_]{1,15}\/?$/;
+        return twitterRegex.test(link);
+      }
+
+      // Функция для валидации и перехода к следующему шагу
+      function validateAndNext() {
+        const twitterInput = document.getElementById("twitter");
+        const twitterError = document.getElementById("twitterError");
+        const link = twitterInput.value.trim();
+
+        // Если поле пустое, пропускаем шаг
+        if (!link) {
+          nextStep(4);
+          return;
+        }
+
+        // Проверяем, является ли введенное значение корректной ссылкой на Twitter
+        if (isValidTwitterLink(link)) {
+          twitterError.style.display = "none"; // Скрываем сообщение об ошибке
+          nextStep(4); // Переходим к следующему шагу
+        } else {
+          twitterError.style.display = "block"; // Показываем сообщение об ошибке
+        }
+      }
+
+      const emailInput = document.getElementById("email");
+
+      // Добавляем обработчик события input
+      emailInput.addEventListener("input", function () {
+        let value = this.value.trim(); // Убираем лишние пробелы
+
+        // Если значение не пустое и не содержит @trenchmail.xyz
+        if (value && !value.includes("@blockmail.org")) {
+          // Удаляем "@trenchmail.xyz", если оно уже есть (на всякий случай)
+          value = value.replace("@blockmail.org", "");
+
+          // Добавляем "@trenchmail.xyz" к введенному значению
+          this.value = value + "@blockmail.org";
+        }
+      });
+      
+      let currentStep = 1;
+
+      function nextStep(step) {
+        document.getElementById(`step${currentStep}`).classList.add('hidden');
+        document.getElementById(`step${step}`).classList.remove('hidden');
+        currentStep = step;
+      }
+
+      function saveData() {
+        const nickname = document.getElementById("nickname").value;
+        const email = document.getElementById("email").value;
+        const twitter = document.getElementById("twitter").value;
+        const solWallet = document.getElementById("solWallet").value;
+
+        if (nickname && email) {
+            document.getElementById("msg").textContent = `Congratulations! Your blockmail is ${email}`
+            document.getElementById("msg").style.display = 'block'
+            setTimeout(() => {
+                document.getElementById("msg").style.display = 'none'
+                document.getElementById("pop").style.display = 'none'
+            }, 2000)
+          document.cookie = `nickname=${nickname}; path=/`;
+          document.cookie = `email=${email}; path=/`;
+          document.cookie = `twitter=${twitter}; path=/`;
+          document.cookie = `solWallet=${solWallet}; path=/`;
+          displayUserData();
+          showEmails();
+        } else {
+          alert("Please fill in all fields!");
+        }
+      }
+
+      function showEmails() {
+        let emailList = document.querySelector(".email-list");
+        emailList.innerHTML =
+          "<div style='color: #9966ff; display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-bottom: 15px;'><div>Sender</div><div>Subject</div><div>View</div></div>";
+
+        const firstEmailShown = localStorage.getItem("firstEmailShown");
+        const secondEmailShown = localStorage.getItem("secondEmailShown");
+
+        if (!firstEmailShown) {
+          setTimeout(() => {
+            let firstEmail = document.createElement("p");
+            firstEmail.innerHTML = `<strong style="color: #ff6699;">System</strong> | Thank you for registering! | <button onclick='alert("You have successfully registered on our service!")'>Open</button>`;
+            emailList.appendChild(firstEmail);
+            localStorage.setItem("firstEmailShown", "true");
+          }, 2000);
+        } else {
+          let firstEmail = document.createElement("p");
+          firstEmail.innerHTML = `<strong style="color: #ff6699;">System</strong> | Thank you for registering! | <button onclick='alert("You have successfully registered on our service!")'>Open</button>`;
+          emailList.appendChild(firstEmail);
+        }
+
+        if (!secondEmailShown) {
+          setTimeout(() => {
+            let secondEmail = document.createElement("p");
+            secondEmail.innerHTML = `<strong style="color: #ff6699;">Admin</strong> | Welcome! | <button onclick='alert("You can now use all the features of the site.")'>Open</button>`;
+            emailList.appendChild(secondEmail);
+            localStorage.setItem("secondEmailShown", "true");
+          }, 10000);
+        } else {
+          let secondEmail = document.createElement("p");
+          secondEmail.innerHTML = `<strong style="color: #ff6699;">Admin</strong> | Welcome! | <button onclick='alert("You can now use all the features of the site.")'>Open</button>`;
+          emailList.appendChild(secondEmail);
+        }
+      }
+
+      function getCookie(name) {
+        let matches = document.cookie.match(
+          new RegExp(
+            "(?:^|; )" +
+              name.replace(/([.$?*|{}()\[\]\\\/\+^])/g, "\\$1") +
+              "=([^;]*)"
+          )
+        );
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
+
+      function displayUserData() {
+        const nickname = getCookie("nickname");
+        const email = getCookie("email");
+        const twitter = getCookie("twitter");
+        const solWallet = getCookie("solWallet");
+
+        if (nickname && email && solWallet) {
+          let mm = `${email}`; 
+          document.getElementById("pop").style.display = 'none'
+          document.getElementById("displayEmail").innerText = email;
+          document.getElementById("displayTwitter").innerText = twitter;
+          document.getElementById("mainContent").style.display = "block";
+          showEmails();
+          document.getElementById("emaill").value = mm;
+        }
+      }
+
+      function openModal(modalId) {
+        document.getElementById(modalId).style.display = "flex";
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+      }
+
+      function deleteEmail() {
+        // Очищаем все куки
+        document.cookie.split(";").forEach((cookie) => {
+            const [name] = cookie.split("=");
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        });
+
+        // Перезагружаем страницу
+        window.location.reload();
+      }
+
+      function copyEmail() {
+        const emailInput = document.getElementById("emaill");
+        emailInput.select();
+        document.execCommand("copy");
+        
+        // Показываем мультяшное уведомление
+        const msg = document.getElementById("msg");
+        msg.textContent = "Email copied to clipboard!";
+        msg.style.display = 'block';
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 2000);
+      }
+
+      function refreshEmail() {
+        // Генерируем случайный email
+        const randomString = Math.random().toString(36).substring(2, 10);
+        const newEmail = `${randomString}@blockmail.org`;
+        document.getElementById("emaill").value = newEmail;
+        
+        // Показываем мультяшное уведомление
+        const msg = document.getElementById("msg");
+        msg.textContent = "New email generated!";
+        msg.style.display = 'block';
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 2000);
+      }
+
+      function changeEmail() {
+        // Просто копируем email, как в функции copyEmail
+        copyEmail();
+      }
+
+      window.onload = displayUserData;
+    </script>
+  
+</body></html>
