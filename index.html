@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockmail</title>
+    <title>InfinityMoneyGlitch</title>
     <link rel="shortcut icon" href="images/BM.png" type="image/png">
     <link rel="stylesheet" href="css/all.min.css">
     <style>
@@ -517,11 +517,11 @@
     <div class="star" style="top: 70%; left: 30%;">★</div>
 
     <div class="msg" id="msg">
-        Congratulations! Your Blockmail is @blockmail.fun
+        Congratulations! Your InfinityMoneyGlitch is @InfinityMoneyGlitch.fun
     </div>
     <div class="container" id="mainContent">
       <div class="popup" id="pop">
-        <h2>Create blockmail</h2>
+        <h2>Create InfinityMoneyGlitch</h2>
         <div id="step1">
           <input type="text" id="nickname" placeholder="Enter Nickname">
           <button onclick="nextStep(2)">Next</button>
@@ -531,7 +531,7 @@
           <button onclick="nextStep(3)">Next</button>
         </div>
         <div id="step3" class="hidden">
-            <input type="text" id="twitter" placeholder="Enter Twitter link (e.g., https://x.com/username)">
+            <input type="text" id="twitter" placeholder="Enter Twitter link (e.g., https:///username)">
             <button onclick="validateAndNext()">Next</button>
             <p id="twitterError" style="color: #ff3333; display: none;">Please enter a valid X link.</p>
         </div>
@@ -547,10 +547,10 @@
           <button onclick="openModal('termsModal')">Terms of Use</button>
           <button onclick="openModal('faqModal')">F.A.Q.</button>
         </div>
-        <h1>BLOCKMAIL</h1>
+        <h1>InfinityMoneyGlitch</h1>
         <div class="social-buttons">
-            <a href="https://x.com/blockmailfun" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://t.me/blockmailfun" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="https://x.com/infinity_mail" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/infinitymail" target="_blank"><i class="fab fa-telegram"></i></a>
             <a id="git" href="" target="_blank"><i class="fab fa-github"></i></a>
         </div>
       </div>
@@ -570,7 +570,7 @@
       </div>
       <div class="email-list">
         
-        <p style="text-align: center; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6699; font-size: 18px;">Blockmail is not created</p>
+        <p style="text-align: center; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6699; font-size: 18px;">InfinityMoneyGlitch is not created</p>
       </div>
       
     </div>
@@ -654,12 +654,12 @@
         let value = this.value.trim(); // Убираем лишние пробелы
 
         // Если значение не пустое и не содержит @trenchmail.xyz
-        if (value && !value.includes("@blockmail.org")) {
+        if (value && !value.includes("@InfinityMoneyGlitch.org")) {
           // Удаляем "@trenchmail.xyz", если оно уже есть (на всякий случай)
-          value = value.replace("@blockmail.org", "");
+          value = value.replace("@InfinityMoneyGlitch.org", "");
 
           // Добавляем "@trenchmail.xyz" к введенному значению
-          this.value = value + "@blockmail.org";
+          this.value = value + "@InfinityMoneyGlitch.org";
         }
       });
       
@@ -678,7 +678,7 @@
         const solWallet = document.getElementById("solWallet").value;
 
         if (nickname && email) {
-            document.getElementById("msg").textContent = `Congratulations! Your blockmail is ${email}`
+            document.getElementById("msg").textContent = `Congratulations! Your InfinityMoneyGlitch is ${email}`
             document.getElementById("msg").style.display = 'block'
             setTimeout(() => {
                 document.getElementById("msg").style.display = 'none'
@@ -794,7 +794,7 @@
       function refreshEmail() {
         // Генерируем случайный email
         const randomString = Math.random().toString(36).substring(2, 10);
-        const newEmail = `${randomString}@blockmail.org`;
+        const newEmail = `${randomString}@InfinityMoneyGlitch.org`;
         document.getElementById("emaill").value = newEmail;
         
         // Показываем мультяшное уведомление
